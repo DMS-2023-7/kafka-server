@@ -44,7 +44,7 @@ def check_time():
 
 # producer가 topic에 msg 전송
 def producerSend(writer, timestamp, content):
-    producer = KafkaProducer(bootstrap_servers='localhost:9092', value_serializer=lambda x: dumps(x).encode('utf-8'))
+    producer = KafkaProducer(bootstrap_servers='3.135.130.17:9092', value_serializer=lambda x: dumps(x).encode('utf-8'))
     test_string={"writer": writer, "timestamp": str(timestamp), "content": content}
     producer.send('test-topic', value=test_string)
     producer.flush()
@@ -54,7 +54,7 @@ def producerSend(writer, timestamp, content):
 
 # consumer가 topic에서 msg 수신
 def consumerGet():
-    consumer = KafkaConsumer('test-topic', bootstrap_servers='localhost:9092')
+    consumer = KafkaConsumer('test-topic', bootstrap_servers='3.135.130.17:9092')
     for message in consumer:
         value = message.value
         d = json.loads(value.decode('utf-8'))
@@ -114,7 +114,7 @@ def consumer():
     json_ans = json.dumps(ans)
     print(json_ans)
     # UI 서버에 api 통해 json_ans 전달
-    url = 'http://localhost:5000/consumer'
+    url = 'http://18.221.31.141:5000/consumer'
 
     # 09~22시 사이에 요청 보냄
     if check_time():
@@ -139,4 +139,4 @@ def consumer():
             return 'API 요청 중 오류가 발생하였습니다: ' + str(e)
 
 
-app.run(port=8989, host='localhost', debug=True)
+app.run(port=8989, host='0.0.0.0', debug=True)

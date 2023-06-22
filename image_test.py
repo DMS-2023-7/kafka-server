@@ -22,7 +22,7 @@ s3 = boto3.client('s3',
 
 def producer_img_send(path):
     # kafka producer 셋팅
-    producer = KafkaProducer(bootstrap_servers='localhost:9092', value_serializer=lambda x: dumps(x).encode('utf-8'))
+    producer = KafkaProducer(bootstrap_servers='3.135.130.17:9092', value_serializer=lambda x: dumps(x).encode('utf-8'))
 
     img_string={"path":path}
     print("### path",img_string)
