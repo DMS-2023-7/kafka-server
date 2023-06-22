@@ -23,7 +23,7 @@ s3 = boto3.client('s3',
 def producer_img_send(path):
 
     # kafka producer 셋팅
-    producer = KafkaProducer(bootstrap_servers='3.135.130.17:9092', value_serializer=lambda x: dumps(x).encode('utf-8'))
+    producer = KafkaProducer(bootstrap_servers='localhost:9092', value_serializer=lambda x: dumps(x).encode('utf-8'))
 
     # TODO : 나중에 html에서 path받으면 넣기
     img_string={"path":path}
@@ -39,13 +39,14 @@ def producer_img_send(path):
     print(name)
     key = 'test/'+name+'.jpg'
     s3.upload_file(file_name,bucket_name, key)
+
    
 
     
 # consumer 테스트가 안돼서 잘 되는지 모르겠음 ..
 def consumer_img_get():
     # kafka consumer 셋팅
-    consumer = KafkaConsumer('img-topic', bootstrap_servers='3.135.130.17:9092')
+    consumer = KafkaConsumer('img-topic', bootstrap_servers='localhost:9092')
 
     #  가져온 message의 key가 path면 value를 가져오고 break
     for message in consumer:
